@@ -48,7 +48,7 @@ au FocusGained,BufEnter * checktime
 let mapleader = " "
 
 " Fast saving
-nmap <leader>w :w!<cr>
+nmap <leader>w :w<cr>
 
 " Fast quiting
 nmap <leader>q :q<cr>
@@ -145,10 +145,10 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-try
-    colorscheme desert
-catch
-endtry
+" try
+"     colorscheme desert
+" catch
+" endtry
 
 set background=dark
 
@@ -189,6 +189,12 @@ set smarttab
 set shiftwidth=3
 set tabstop=3
 
+augroup python
+    autocmd!
+    " Add shiftwidth and/or softtabstop if you want to override those too.
+    autocmd FileType python setlocal expandtab tabstop=3 shiftwidth=3
+augroup end
+
 " Linebreak on 500 characters
 set lbr
 set tw=500
@@ -225,7 +231,8 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+" map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <C-w> :Bclose<cr>:tabclose<cr>gT
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -467,11 +474,39 @@ nnoremap <leader><leader> :FZF<CR>
 nnoremap ; :
 " nnoremap <leader>n :NERDTreeFocus<CR>
 " nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-e> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 nmap <C-p> <Plug>yankstack_substitute_older_paste
 nmap <C-n> <Plug>yankstack_substitute_newer_paste
+
+" gutentags
+if v:version >= 801
+   set statusline+=%{gutentags#statusline()}
+
+   let g:gutentags_project_root = ['.root', '.git']
+   let g:gutentags_ctags_tagfile = '.tags'
+   let s:vim_tags = expand('~/.cache/tags')
+   let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+   let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+   if !isdirectory(s:vim_tags)
+      silent! call mkdir(s:vim_tags, 'p')
+   endif
+endif
+
+" leaderf
+let g:Lf_ShowDevIcons = 0
+let g:Lf_WorkingDirectoryMode = 'a'
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>fp :<C-U><C-R>=printf("Leaderf function%s", "")<CR><CR>
 
 call plug#begin()
 Plug 'preservim/nerdtree'
@@ -479,6 +514,12 @@ Plug 'tpope/vim-commentary'
 Plug '~/.fzf'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'bling/vim-bufferline'
-Plug 'jeetsukumaran/vim-buffergator'
+" Plug 'jeetsukumaran/vim-buffergator'
+if v:version >= 801
+   Plug 'ludovicchabant/vim-gutentags'
+   " Plug 'valloric/youcompleteme'
+   Plug 'yggdroot/leaderf'
+   Plug 'ervandew/supertab'
+endif
 call plug#end()
 
