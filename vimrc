@@ -195,9 +195,13 @@ augroup python
     autocmd FileType python setlocal expandtab tabstop=3 shiftwidth=3
 augroup end
 
-" Linebreak on 500 characters
+" Linebreak on 80 characters
 set lbr
-set tw=500
+set textwidth=80
+" Override in Git commit messages
+autocmd FileType gitcommit set textwidth=80
+" Colour the 81st column so that we don’t type over our limit
+set colorcolumn=+1
 
 set ai "Auto indent
 set si "Smart indent
