@@ -49,6 +49,9 @@ let mapleader = " "
 
 " Fast saving
 nmap <leader>w :w<cr>
+nnoremap <C-s> :w<CR>
+" Fast saving in insert mode
+inoremap <C-s> <ESC>:w<CR>
 
 " Fast quiting
 nmap <leader>q :q<cr>
@@ -140,6 +143,8 @@ endif
 " Enable syntax highlighting
 syntax enable
 
+set t_Co=256
+
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
@@ -151,14 +156,6 @@ endif
 " endtry
 
 set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -229,10 +226,10 @@ map <C-space> ?
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
 
 " Close the current buffer
 " map <leader>bd :Bclose<cr>:tabclose<cr>gT
@@ -512,6 +509,40 @@ noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf function%s", "")<CR><CR>
 
+set diffopt+=vertical
+
+" gitgutter
+let g:gitgutter_sign_added = "+"
+let g:gitgutter_sign_removed = "-"
+let g:gitgutter_sign_removed_first_line = "^"
+let g:gitgutter_sign_modified = ">"
+let g:gitgutter_sign_modified_removed = "<"
+
+nmap <leader>gj <Plug>(GitGutterNextHunk)
+nmap <leader>gk <Plug>(GitGutterPrevHunk)
+
+" fugitive
+nmap <leader>gb :Gblame<CR>
+nmap <leader>gs :Git status -uno<CR>
+nmap <leader>ga :Git add %<CR>
+nmap <leader>gd :vertical Gdiff<CR>
+nmap <leader>gl :vertical Git log -20<CR>
+nmap <leader>gm :vertical Git commit --amend<CR>
+nmap <leader>gn :Git commit --amend --no-edit<CR>
+nmap <leader>gp :Git post<CR>
+
+set updatetime=250
+
+" session
+let g:session_autosave = 'yes'
+let g:session_autoload = 'no'
+
+" indent guides
+autocmd FileType c,python,python2 :IndentGuidesEnable
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=grey23 ctermbg=237
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey35 ctermbg=240
+
 call plug#begin()
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
@@ -519,6 +550,12 @@ Plug '~/.fzf'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'bling/vim-bufferline'
 " Plug 'jeetsukumaran/vim-buffergator'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+Plug 'nathanaelkane/vim-indent-guides'
 if v:version >= 801
    Plug 'ludovicchabant/vim-gutentags'
    " Plug 'valloric/youcompleteme'
