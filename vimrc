@@ -557,7 +557,9 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'nathanaelkane/vim-indent-guides'
 if v:version >= 801
-   Plug 'ludovicchabant/vim-gutentags'
+   if executable('ctags')
+      Plug 'ludovicchabant/vim-gutentags'
+   endif
    " Plug 'valloric/youcompleteme'
    Plug 'yggdroot/leaderf'
    Plug 'ervandew/supertab'
