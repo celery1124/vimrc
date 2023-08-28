@@ -1,5 +1,7 @@
 # My vim configuration
 
+Basic configurations come from [awesome-vim](https://github.com/akrawchyk/awesome-vim)
+
 ## Prerequisite
 ### [vim-plug](https://github.com/junegunn/vim-plug)
 ```
