@@ -482,7 +482,7 @@ nmap <C-p> <Plug>yankstack_substitute_older_paste
 nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
 " gutentags
-if v:version >= 801
+if v:version >= 801 && executable('ctags')
    set statusline+=%{gutentags#statusline()}
 
    let g:gutentags_project_root = ['.root', '.git']
@@ -556,6 +556,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'jiangmiao/auto-pairs'
 if v:version >= 801
    if executable('ctags')
       Plug 'ludovicchabant/vim-gutentags'
