@@ -218,8 +218,8 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map s to / (search) and S to ? (backwards search)
-map s /
-map S ?
+autocmd VimEnter * noremap s /
+autocmd VimEnter * noremap S ?
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
