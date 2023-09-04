@@ -355,6 +355,8 @@ noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
+" Double press 0 to jump to the end of line
+nnoremap 00 $
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -480,34 +482,6 @@ nnoremap <C-f> :NERDTreeFind<CR>
 nmap <C-p> <Plug>yankstack_substitute_older_paste
 nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
-" gutentags
-if v:version >= 801 && executable('ctags')
-   set statusline+=%{gutentags#statusline()}
-
-   let g:gutentags_project_root = ['.root', '.git']
-   let g:gutentags_ctags_tagfile = '.tags'
-   let s:vim_tags = expand('~/.cache/tags')
-   let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-   let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-
-   if !isdirectory(s:vim_tags)
-      silent! call mkdir(s:vim_tags, 'p')
-   endif
-endif
-
-" leaderf
-let g:Lf_ShowDevIcons = 0
-let g:Lf_WorkingDirectoryMode = 'a'
-" popup mode
-let g:Lf_WindowPosition = 'popup'
-
-let g:Lf_ShortcutF = "<leader>ff"
-noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <leader>fp :<C-U><C-R>=printf("Leaderf function%s", "")<CR><CR>
-
 set diffopt+=vertical
 
 " gitgutter
@@ -542,6 +516,51 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=grey23 ctermbg=237
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey35 ctermbg=240
 
+" easy-replace
+let g:easy_replace_launch_key = "<leader>r"
+let g:easy_replace_launch_in_visual_key = "<leader>r"
+
+" gutentags
+if v:version >= 801 
+   if executable('ctags')
+      set statusline+=%{gutentags#statusline()}
+   
+      let g:gutentags_project_root = ['.root', '.git']
+      let g:gutentags_ctags_tagfile = '.tags'
+      let s:vim_tags = expand('~/.cache/tags')
+      let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+      let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+   
+      if !isdirectory(s:vim_tags)
+         silent! call mkdir(s:vim_tags, 'p')
+      endif
+   endif
+
+   " leaderf
+   let g:Lf_ShowDevIcons = 0
+   let g:Lf_WorkingDirectoryMode = 'a'
+   " popup mode
+   let g:Lf_WindowPosition = 'popup'
+   
+   let g:Lf_ShortcutF = "<leader>ff"
+   noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+   noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+   noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+   noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+   noremap <leader>fp :<C-U><C-R>=printf("Leaderf function%s", "")<CR><CR>
+
+   " farvim
+   " shortcut for far.vim find
+   nnoremap <silent> <leader>f  :Farf<CR>
+   vnoremap <silent> <leader>f  :Farf<CR>
+   
+   " shortcut for far.vim replace
+   nnoremap <silent> <leader>s  :Farr<CR>
+   vnoremap <silent> <leader>s  :Farr<CR> 
+
+   let g:far#enable_undo=1
+endif
+
 call plug#begin()
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
@@ -556,6 +575,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'jiangmiao/auto-pairs'
+Plug 'kqito/vim-easy-replace'
 if v:version >= 801
    if executable('ctags')
       Plug 'ludovicchabant/vim-gutentags'
@@ -563,6 +583,7 @@ if v:version >= 801
    " Plug 'valloric/youcompleteme'
    Plug 'yggdroot/leaderf'
    Plug 'ervandew/supertab'
+   Plug 'brooth/far.vim'
 endif
 call plug#end()
 
