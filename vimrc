@@ -323,7 +323,7 @@ fun! CleanExtraSpaces()
 endfun
 
 if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+    autocmd BufWritePre *.c,*.h,*.py,*.sh :call CleanExtraSpaces()
 endif
 
 
@@ -357,6 +357,15 @@ map <leader>pp :setlocal paste!<cr>
 
 " Double press 0 to jump to the end of line
 nnoremap 00 $
+
+" Normal dd only deletes, <leader>dd performs cut
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+
+nnoremap <leader>d ""d
+nnoremap <leader>D ""D
+vnoremap <leader>d ""d
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -430,24 +439,6 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-
-" Default fzf layout
-" - Popup window (center of the screen)
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-" - Popup window (center of the current window)
-"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
-
-" - Popup window (anchored to the bottom of the current window)
-"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
-
-" - down / up / left / right
-" let g:fzf_layout = { 'down': '40%' }
-
-" - Window using a Vim command
-" let g:fzf_layout = { 'window': 'enew' }
-" let g:fzf_layout = { 'window': '-tabnew' }
-" let g:fzf_layout = { 'window': '10new' }
 
 " Customize fzf colors to match your color scheme
 " - fzf#wrap translates this to a set of `--color` options
