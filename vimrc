@@ -239,6 +239,8 @@ map <leader>ba :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
+map <tab> :bnext<cr>
+map <S-tab> :bprev<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -246,8 +248,8 @@ map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 " map <leader>tm :tabmove
 " map <leader>t<leader> :tabnext
-map <tab> :tabnext<cr>
-map <S-tab> :tabprev<cr>
+" map <tab> :tabnext<cr>
+" map <S-tab> :tabprev<cr>
 
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -272,6 +274,7 @@ map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
+set autochdir
 
 " Specify the behavior when switching between buffers
 try
@@ -291,7 +294,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -475,6 +478,10 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
 set diffopt+=vertical
 
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 " gitgutter
 let g:gitgutter_sign_added = "+"
 let g:gitgutter_sign_removed = "-"
@@ -528,8 +535,9 @@ if v:version >= 801
    endif
 
    " leaderf
+   let g:Lf_RootMarkers = ['.git', '.svn', '.root']
    let g:Lf_ShowDevIcons = 0
-   let g:Lf_WorkingDirectoryMode = 'a'
+   let g:Lf_WorkingDirectoryMode = 'Ac'
    " popup mode
    let g:Lf_WindowPosition = 'popup'
    
@@ -550,6 +558,19 @@ if v:version >= 801
    vnoremap <silent> <leader>s  :Farr<CR> 
 
    let g:far#enable_undo=1
+
+   " easymotion
+   let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+   " Jump to anywhere you want with minimal keystrokes, with just one key
+   " binding.  `s{char}{char}{label}`
+   autocmd VimEnter * nmap f <Plug>(easymotion-overwin-f2)
+   " Turn on case-insensitive feature
+   let g:EasyMotion_smartcase = 1
+
+   " JK motions: Line motions
+   map <Leader>j <Plug>(easymotion-j)
+   map <Leader>k <Plug>(easymotion-k)
 endif
 
 call plug#begin()
@@ -557,7 +578,7 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug '~/.fzf'
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'bling/vim-bufferline'
+" Plug 'bling/vim-bufferline'
 " Plug 'jeetsukumaran/vim-buffergator'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -571,10 +592,10 @@ if v:version >= 801
    if executable('ctags')
       Plug 'ludovicchabant/vim-gutentags'
    endif
-   " Plug 'valloric/youcompleteme'
    Plug 'yggdroot/leaderf'
    Plug 'ervandew/supertab'
    Plug 'brooth/far.vim'
+   Plug 'easymotion/vim-easymotion'
 endif
 call plug#end()
 
